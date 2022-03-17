@@ -49,7 +49,6 @@ func (uc *CategoryUseCase) GetCategory(ctx context.Context, req *pb.GetCategoryR
 }
 
 func (uc *CategoryUseCase) ListCategory(ctx context.Context) (list []*pb.CategoryModel, total uint64, err error) {
-	uc.log.WithContext(ctx).Infof("params:%s")
 	data, t, err := uc.repo.List(ctx)
 	if err != nil {
 		return
