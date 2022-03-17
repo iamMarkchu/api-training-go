@@ -26,6 +26,7 @@ var (
 	id, _ = os.Hostname()
 )
 
+// test
 func init() {
 	flag.StringVar(&flagconf, "conf", "../../configs/api-action-go", "config path, eg: -conf config.yaml")
 }
