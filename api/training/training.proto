@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package api.training;
+import "google/api/annotations.proto";
+import "api/common/common.proto";
+
+option go_package = "api-training-go/api/training;training";
+option java_multiple_files = true;
+option java_package = "api.training";
+
+service Training {
+	rpc CreateTraining (CreateTrainingRequest) returns (CreateTrainingReply){
+		option (google.api.http) = {
+			post: "/training/create",
+			body: "*"
+		};
+	};
+	rpc UpdateTraining (UpdateTrainingRequest) returns (UpdateTrainingReply){
+		option (google.api.http) = {
+			post: "/training/update",
+			body: "*"
+		};
+	};
+	rpc DeleteTraining (DeleteTrainingRequest) returns (DeleteTrainingReply){
+		option (google.api.http) = {
+			post: "/training/delete",
+			body: "*"
+		};
+	};
+	rpc GetTraining (GetTrainingRequest) returns (GetTrainingReply){
+		option (google.api.http) = {
+			get: "/training/get/:id"
+		};
+	};
+	rpc ListTraining (ListTrainingRequest) returns (ListTrainingReply){
+		option (google.api.http) = {
+			get: "/training/getList"
+		};
+	};
+}
+
+message CreateTrainingRequest {
+	string title = 1;
+	string description = 2;
+	repeated TrainingItem list = 3;
+}
+message CreateTrainingReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message UpdateTrainingRequest {
+	string title = 1;
+	string description = 2;
+	repeated TrainingItem list = 3;
+	uint64 id = 4;
+}
+message UpdateTrainingReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message DeleteTrainingRequest {
+	uint64 id = 1;
+}
+message DeleteTrainingReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message GetTrainingRequest {
+	uint64 id = 1;
+}
+message GetTrainingReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	TrainingModel data = 3;
+}
+
+message ListTrainingRequest {}
+message ListTrainingReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	ListTrainingReplyData data = 3;
+}
+message ListTrainingReplyData {
+	uint64 total = 1;
+	repeated TrainingModel list = 2;
+}
+
+message TrainingItem {
+	uint64 id = 1;
+	uint64 groupId = 2;
+	uint64 trainingId = 3;
+	uint64 actionId = 4;
+	uint32 countType = 5;
+	uint32 weight = 6;
+	uint32 countNum = 7;
+}
+
+message TrainingModel {
+	uint64 id = 1;
+	string title = 2;
+	string description = 3;
+	repeated TrainingItem list = 4;
+}

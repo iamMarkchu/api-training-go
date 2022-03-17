@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package api.category;
+import "api/common/common.proto";
+import "google/api/annotations.proto";
+
+option go_package = "api-training-go/api/category;category";
+option java_multiple_files = true;
+option java_package = "api.category";
+
+service Category {
+	rpc CreateCategory (CreateCategoryRequest) returns (CreateCategoryReply){
+		option (google.api.http) = {
+			post: "/category/create",
+			body: "*"
+		};
+	};
+	rpc UpdateCategory (UpdateCategoryRequest) returns (UpdateCategoryReply){
+		option (google.api.http) = {
+			post: "/category/update",
+			body: "*"
+		};
+	};
+	rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryReply){
+		option (google.api.http) = {
+			post: "/category/delete",
+			body: "*"
+		};
+	};
+	rpc GetCategory (GetCategoryRequest) returns (GetCategoryReply) {
+		option (google.api.http) = {
+			get: "/category/get/{id}",
+		};
+	};
+	rpc ListCategory (ListCategoryRequest) returns (ListCategoryReply) {
+		option (google.api.http) = {
+			get: "/category/list",
+		};
+	};
+	rpc MGetCategory (MGetCategoryRequest) returns (MGetCategoryReply){
+		option (google.api.http) = {
+			post: "/category/mget",
+			body: "*"
+		};
+	};
+}
+
+message CreateCategoryRequest {
+	// 父类别
+	uint64 parentId = 1;
+	// 类别名称
+	string name = 2;
+	// 类别描述
+	string description = 3;
+}
+message CreateCategoryReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message UpdateCategoryRequest {
+	uint64 id = 1;
+	// 父类别
+	uint64 parentId = 2;
+	// 类别名称
+	string name = 3;
+	// 类别描述
+	string description = 4;
+}
+message UpdateCategoryReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message DeleteCategoryRequest {
+	uint64 id = 1;
+}
+message DeleteCategoryReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message GetCategoryRequest {
+	uint64 id = 1;
+}
+message GetCategoryReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	CategoryModel data = 3;
+}
+
+message ListCategoryRequest {}
+message ListCategoryReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	ListCategoryReplyData data = 3;
+}
+message ListCategoryReplyData {
+	uint64 total = 1;
+	repeated CategoryModel list =2;
+}
+
+message CategoryModel {
+	uint64 id = 1;
+	// 父类别
+	uint64 parentId = 2;
+	// 类别名称
+	string name = 3;
+	// 类别描述
+	string description = 4;
+	// 状态
+	uint32 status = 5;
+	// 用户id
+	uint32 user_id = 6;
+	// 用户名
+	string userName = 7;
+	// 创建时间
+	uint64 ctime = 8;
+	// 修改时间
+	uint64 utime = 9;
+}
+
+message MGetCategoryRequest {
+	repeated uint64 cateIds = 1;
+}
+
+message MGetCategoryReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	map<uint64,CategoryModel> data = 3;
+}

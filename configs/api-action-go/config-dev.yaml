@@ -1,0 +1,30 @@
+server:
+  http:
+    addr: 0.0.0.0:8002
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9002
+    timeout: 1s
+data:
+  database:
+    driver: mysql
+    source: root:chukui123@tcp(192.168.50.252:3306)/training_base?charset=utf8mb4&parseTime=True&loc=Local
+    debug: true
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+auth:
+  key: "147258"
+
+client:
+  grpc:
+    category:
+      addr: 0.0.0.0:9001
+      timeout: 1s
+    user:
+      addr: 0.0.0.0:9004
+      timeout: 1s
+    action:
+      addr: 0.0.0.0:9002
+      timeout: 1s

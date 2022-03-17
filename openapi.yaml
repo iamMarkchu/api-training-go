@@ -1,0 +1,167 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/apps/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: User API
+    version: 0.0.1
+paths:
+    /user/login:
+        post:
+            tags:
+                - User
+            description: 用户登录接口
+            operationId: User_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginResponse'
+    /user/mget:
+        post:
+            tags:
+                - User
+            description: 批量获取用户信息
+            operationId: User_MGet
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MGetRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MGetResponse'
+    /user/register:
+        post:
+            tags:
+                - User
+            description: 用户注册接口
+            operationId: User_Register
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RegisterRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RegisterResponse'
+components:
+    schemas:
+        LoginRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 用户名
+                password:
+                    type: string
+                    description: 密码
+            description: 用户登录参数
+        LoginResponse:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/LoginResponse_LoginData'
+            description: 用户登录返回
+        LoginResponse_LoginData:
+            type: object
+            properties:
+                token:
+                    type: string
+                    description: token
+                expire:
+                    type: integer
+                    description: 过期时间
+                    format: uint64
+            description: data
+        MGetRequest:
+            type: object
+            properties:
+                uids:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint64
+        MGetResponse:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    type: object
+                    additionalProperties:
+                        $ref: '#/components/schemas/UserModel'
+                    description: 返回
+        RegisterRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 用户名
+                nickName:
+                    type: string
+                    description: 昵称
+                password:
+                    type: string
+                    description: 密码
+                password2:
+                    type: string
+                    description: 重复密码
+            description: 用户注册参数
+        RegisterResponse:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/RegisterResponse_RegisterData'
+            description: 用户注册返回
+        RegisterResponse_RegisterData:
+            type: object
+            properties: {}
+            description: data
+        UserModel:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint64
+                name:
+                    type: string
+tags:
+    - name: User

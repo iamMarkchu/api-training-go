@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+package api.action;
+import "google/api/annotations.proto";
+import "api/common/common.proto";
+import "api/category/category.proto";
+import "api/user/user.proto";
+
+option go_package = "api-training-go/api/action;action";
+option java_multiple_files = true;
+option java_package = "api.action";
+
+service Action {
+	rpc CreateAction (CreateActionRequest) returns (CreateActionReply){
+		option (google.api.http) = {
+			post: "/action/create",
+			body: "*"
+		};
+	};
+	rpc UpdateAction (UpdateActionRequest) returns (UpdateActionReply){
+		option (google.api.http) = {
+			post: "/action/update",
+			body: "*"
+		};
+	};
+	rpc DeleteAction (DeleteActionRequest) returns (DeleteActionReply){
+		option (google.api.http) = {
+			post: "/action/delete",
+			body: "*"
+		};
+	};
+	rpc GetAction (GetActionRequest) returns (GetActionReply){
+		option (google.api.http) = {
+			get: "/action/get/{id}",
+		};
+	};
+	rpc ListAction (ListActionRequest) returns (ListActionReply){
+		option (google.api.http) = {
+			get: "/action/list",
+		};
+	};
+};
+
+message CreateActionRequest {
+	// 类别id
+	uint64 cateId = 1;
+	// 动作名称
+	string name = 2;
+	// 动作描述
+	string description = 3;
+}
+message CreateActionReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message UpdateActionRequest {
+	// id
+	uint64 id = 1;
+	// 类别id
+	uint64 cateId = 2;
+	// 动作名称
+	string name = 3;
+	// 动作描述
+	string description = 4;
+}
+message UpdateActionReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message DeleteActionRequest {
+	// id
+	uint64 id = 1;
+}
+message DeleteActionReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	api.common.ResponseData data = 3;
+}
+
+message GetActionRequest {
+	// id
+	uint64 id = 1;
+}
+message GetActionReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	ActionModel data = 3;
+}
+
+message ListActionRequest {
+	uint32 page = 1;
+	uint32 limit = 2;
+	uint64 cateId = 3;
+}
+message ListActionReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	ListActionReplyData data = 3;
+}
+
+message ListActionReplyData {
+	uint64 total = 1;
+	repeated ActionModel list = 2;
+}
+
+message ActionModel {
+	// id
+	uint64 id = 1;
+	// 类别id
+	uint64 cateId = 2;
+	// 动作名称
+	string name = 3;
+	// 动作描述
+	string description = 4;
+	// 状态
+	uint32 status = 5;
+	// user.UserModel
+	user.UserModel user = 6;
+	// 创建时间
+	uint64 ctime = 7;
+	// 修改时间
+	uint64 utime = 8;
+	// 类别信息
+	category.CategoryModel category = 9;
+}
