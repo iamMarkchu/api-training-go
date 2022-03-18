@@ -51,7 +51,7 @@ func NewHTTPServer(c *conf.Server, logger log.Logger, ca *conf.Auth, userService
 	srv := http.NewServer(opts...)
 	h := openapiv2.NewHandler()
 	//将/q/路由放在最前匹配
-	srv.HandlePrefix("/doc/q/", h)
+	srv.HandlePrefix("/q/", h)
 	pb_user.RegisterUserHTTPServer(srv, userService)
 	return srv
 }
