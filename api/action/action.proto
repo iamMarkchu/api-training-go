@@ -39,6 +39,12 @@ service Action {
 			get: "/action/list",
 		};
 	};
+	rpc MGetAction (MGetActionRequest) returns (MGetActionReply){
+		option (google.api.http) = {
+			post: "/action/mget",
+			body: "*"
+		};
+	};
 };
 
 message CreateActionRequest {
@@ -141,4 +147,17 @@ message ActionModel {
 	uint64 utime = 8;
 	// 类别信息
 	category.CategoryModel category = 9;
+}
+
+message MGetActionRequest {
+	repeated uint64 actionIds = 1;
+}
+
+message MGetActionReply {
+	// 响应码
+	uint32 code = 1;
+	// 提示
+	string message = 2;
+	// 返回
+	map<uint64,ActionModel> data = 3;
 }

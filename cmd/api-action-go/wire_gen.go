@@ -7,10 +7,10 @@
 package main
 
 import (
-	"api-training-go/internal/action/biz"
-	"api-training-go/internal/action/data"
-	"api-training-go/internal/action/server"
-	"api-training-go/internal/action/service"
+	"api-training-go/internal/app/action/biz"
+	"api-training-go/internal/app/action/data"
+	"api-training-go/internal/app/action/server"
+	"api-training-go/internal/app/action/service"
 	"api-training-go/internal/conf"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
@@ -30,7 +30,7 @@ func initApp(confServer *conf.Server, confData *conf.Data, logger log.Logger, au
 	actionUseCase := biz.NewActionUseCase(logger, actionRepo, categoryRepo, userRepo)
 	actionService := service.NewActionService(actionUseCase, logger)
 	httpServer := server.NewHTTPServer(confServer, logger, auth, actionService)
-	grpcServer := server.NewGRPCServer(confServer, logger)
+	grpcServer := server.NewGRPCServer(confServer, logger, actionService)
 	app := newApp(logger, httpServer, grpcServer)
 	return app, func() {
 		cleanup()

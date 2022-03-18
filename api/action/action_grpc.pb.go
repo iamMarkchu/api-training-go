@@ -27,6 +27,7 @@ type ActionClient interface {
 	DeleteAction(ctx context.Context, in *DeleteActionRequest, opts ...grpc.CallOption) (*DeleteActionReply, error)
 	GetAction(ctx context.Context, in *GetActionRequest, opts ...grpc.CallOption) (*GetActionReply, error)
 	ListAction(ctx context.Context, in *ListActionRequest, opts ...grpc.CallOption) (*ListActionReply, error)
+	MGetAction(ctx context.Context, in *MGetActionRequest, opts ...grpc.CallOption) (*MGetActionReply, error)
 }
 
 type actionClient struct {
@@ -82,6 +83,15 @@ func (c *actionClient) ListAction(ctx context.Context, in *ListActionRequest, op
 	return out, nil
 }
 
+func (c *actionClient) MGetAction(ctx context.Context, in *MGetActionRequest, opts ...grpc.CallOption) (*MGetActionReply, error) {
+	out := new(MGetActionReply)
+	err := c.cc.Invoke(ctx, "/api.action.Action/MGetAction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActionServer is the server API for Action service.
 // All implementations must embed UnimplementedActionServer
 // for forward compatibility
@@ -91,6 +101,7 @@ type ActionServer interface {
 	DeleteAction(context.Context, *DeleteActionRequest) (*DeleteActionReply, error)
 	GetAction(context.Context, *GetActionRequest) (*GetActionReply, error)
 	ListAction(context.Context, *ListActionRequest) (*ListActionReply, error)
+	MGetAction(context.Context, *MGetActionRequest) (*MGetActionReply, error)
 	mustEmbedUnimplementedActionServer()
 }
 
@@ -112,6 +123,9 @@ func (UnimplementedActionServer) GetAction(context.Context, *GetActionRequest) (
 }
 func (UnimplementedActionServer) ListAction(context.Context, *ListActionRequest) (*ListActionReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAction not implemented")
+}
+func (UnimplementedActionServer) MGetAction(context.Context, *MGetActionRequest) (*MGetActionReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MGetAction not implemented")
 }
 func (UnimplementedActionServer) mustEmbedUnimplementedActionServer() {}
 
@@ -216,6 +230,24 @@ func _Action_ListAction_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Action_MGetAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MGetActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActionServer).MGetAction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.action.Action/MGetAction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActionServer).MGetAction(ctx, req.(*MGetActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Action_ServiceDesc is the grpc.ServiceDesc for Action service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +274,10 @@ var Action_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAction",
 			Handler:    _Action_ListAction_Handler,
+		},
+		{
+			MethodName: "MGetAction",
+			Handler:    _Action_MGetAction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

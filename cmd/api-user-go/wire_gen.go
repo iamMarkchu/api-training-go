@@ -7,11 +7,11 @@
 package main
 
 import (
+	"api-training-go/internal/app/user/biz"
+	"api-training-go/internal/app/user/data"
+	"api-training-go/internal/app/user/server"
+	"api-training-go/internal/app/user/service"
 	"api-training-go/internal/conf"
-	"api-training-go/internal/user/biz"
-	"api-training-go/internal/user/data"
-	"api-training-go/internal/user/server"
-	"api-training-go/internal/user/service"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 )

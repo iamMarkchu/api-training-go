@@ -30,7 +30,7 @@ func RegisterTrainingHTTPServer(s *http.Server, srv TrainingHTTPServer) {
 	r.POST("/training/create", _Training_CreateTraining0_HTTP_Handler(srv))
 	r.POST("/training/update", _Training_UpdateTraining0_HTTP_Handler(srv))
 	r.POST("/training/delete", _Training_DeleteTraining0_HTTP_Handler(srv))
-	r.GET("/training/get/:id", _Training_GetTraining0_HTTP_Handler(srv))
+	r.GET("/training/get/{id}", _Training_GetTraining0_HTTP_Handler(srv))
 	r.GET("/training/getList", _Training_ListTraining0_HTTP_Handler(srv))
 }
 
@@ -95,6 +95,9 @@ func _Training_GetTraining0_HTTP_Handler(srv TrainingHTTPServer) func(ctx http.C
 	return func(ctx http.Context) error {
 		var in GetTrainingRequest
 		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, "/api.training.Training/GetTraining")
@@ -173,7 +176,7 @@ func (c *TrainingHTTPClientImpl) DeleteTraining(ctx context.Context, in *DeleteT
 
 func (c *TrainingHTTPClientImpl) GetTraining(ctx context.Context, in *GetTrainingRequest, opts ...http.CallOption) (*GetTrainingReply, error) {
 	var out GetTrainingReply
-	pattern := "/training/get/:id"
+	pattern := "/training/get/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation("/api.training.Training/GetTraining"))
 	opts = append(opts, http.PathTemplate(pattern))

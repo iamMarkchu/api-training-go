@@ -7,11 +7,11 @@
 package main
 
 import (
-	"api-training-go/internal/biz"
+	"api-training-go/internal/app/training/biz"
+	"api-training-go/internal/app/training/data"
+	"api-training-go/internal/app/training/server"
+	"api-training-go/internal/app/training/service"
 	"api-training-go/internal/conf"
-	"api-training-go/internal/data"
-	"api-training-go/internal/server"
-	"api-training-go/internal/service"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 )
@@ -19,19 +19,18 @@ import (
 // Injectors from wire.go:
 
 // initApp init kratos application.
-func initApp(confServer *conf.Server, confData *conf.Data, logger log.Logger, auth *conf.Auth) (*kratos.App, func(), error) {
-	dataData, cleanup, err := data.NewData(confData, logger)
+func initApp(confServer *conf.Server, confData *conf.Data, logger log.Logger, auth *conf.Auth, client *conf.Client) (*kratos.App, func(), error) {
+	dataData, cleanup, err := data.NewData(confData, logger, client)
 	if err != nil {
 		return nil, nil, err
 	}
 	trainingRepo := data.NewTrainingRepo(dataData, logger)
-	trainingUseCase := biz.NewTrainingUseCase(trainingRepo, logger)
+	userRepo := data.NewUserRepo(dataData, logger)
+	actionRepo := data.NewActionRepo(dataData, logger)
+	trainingUseCase := biz.NewTrainingUseCase(trainingRepo, logger, userRepo, actionRepo)
 	trainingService := service.NewTrainingService(trainingUseCase, logger)
 	httpServer := server.NewHTTPServer(confServer, logger, auth, trainingService)
-	greeterRepo := data.NewGreeterRepo(dataData, logger)
-	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
-	greeterService := service.NewGreeterService(greeterUsecase, logger)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
+	grpcServer := server.NewGRPCServer(confServer, logger)
 	app := newApp(logger, httpServer, grpcServer)
 	return app, func() {
 		cleanup()

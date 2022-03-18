@@ -22,6 +22,7 @@ type ActionHTTPServer interface {
 	DeleteAction(context.Context, *DeleteActionRequest) (*DeleteActionReply, error)
 	GetAction(context.Context, *GetActionRequest) (*GetActionReply, error)
 	ListAction(context.Context, *ListActionRequest) (*ListActionReply, error)
+	MGetAction(context.Context, *MGetActionRequest) (*MGetActionReply, error)
 	UpdateAction(context.Context, *UpdateActionRequest) (*UpdateActionReply, error)
 }
 
@@ -32,6 +33,7 @@ func RegisterActionHTTPServer(s *http.Server, srv ActionHTTPServer) {
 	r.POST("/action/delete", _Action_DeleteAction0_HTTP_Handler(srv))
 	r.GET("/action/get/{id}", _Action_GetAction0_HTTP_Handler(srv))
 	r.GET("/action/list", _Action_ListAction0_HTTP_Handler(srv))
+	r.POST("/action/mget", _Action_MGetAction0_HTTP_Handler(srv))
 }
 
 func _Action_CreateAction0_HTTP_Handler(srv ActionHTTPServer) func(ctx http.Context) error {
@@ -132,11 +134,31 @@ func _Action_ListAction0_HTTP_Handler(srv ActionHTTPServer) func(ctx http.Contex
 	}
 }
 
+func _Action_MGetAction0_HTTP_Handler(srv ActionHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in MGetActionRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, "/api.action.Action/MGetAction")
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.MGetAction(ctx, req.(*MGetActionRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*MGetActionReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type ActionHTTPClient interface {
 	CreateAction(ctx context.Context, req *CreateActionRequest, opts ...http.CallOption) (rsp *CreateActionReply, err error)
 	DeleteAction(ctx context.Context, req *DeleteActionRequest, opts ...http.CallOption) (rsp *DeleteActionReply, err error)
 	GetAction(ctx context.Context, req *GetActionRequest, opts ...http.CallOption) (rsp *GetActionReply, err error)
 	ListAction(ctx context.Context, req *ListActionRequest, opts ...http.CallOption) (rsp *ListActionReply, err error)
+	MGetAction(ctx context.Context, req *MGetActionRequest, opts ...http.CallOption) (rsp *MGetActionReply, err error)
 	UpdateAction(ctx context.Context, req *UpdateActionRequest, opts ...http.CallOption) (rsp *UpdateActionReply, err error)
 }
 
@@ -194,6 +216,19 @@ func (c *ActionHTTPClientImpl) ListAction(ctx context.Context, in *ListActionReq
 	opts = append(opts, http.Operation("/api.action.Action/ListAction"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *ActionHTTPClientImpl) MGetAction(ctx context.Context, in *MGetActionRequest, opts ...http.CallOption) (*MGetActionReply, error) {
+	var out MGetActionReply
+	pattern := "/action/mget"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation("/api.action.Action/MGetAction"))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}
