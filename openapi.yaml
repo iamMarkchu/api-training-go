@@ -3,9 +3,336 @@
 
 openapi: 3.0.3
 info:
-    title: User API
+    title: ""
     version: 0.0.1
 paths:
+    /action/create:
+        post:
+            tags:
+                - Action
+            operationId: Action_CreateAction
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateActionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateActionReply'
+    /action/delete:
+        post:
+            tags:
+                - Action
+            operationId: Action_DeleteAction
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteActionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteActionReply'
+    /action/get/{id}:
+        get:
+            tags:
+                - Action
+            operationId: Action_GetAction
+            parameters:
+                - name: id
+                  in: path
+                  description: id
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetActionReply'
+    /action/list:
+        get:
+            tags:
+                - Action
+            operationId: Action_ListAction
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: limit
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: cateId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListActionReply'
+    /action/mget:
+        post:
+            tags:
+                - Action
+            operationId: Action_MGetAction
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MGetActionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MGetActionReply'
+    /action/update:
+        post:
+            tags:
+                - Action
+            operationId: Action_UpdateAction
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateActionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateActionReply'
+    /category/create:
+        post:
+            tags:
+                - Category
+            operationId: Category_CreateCategory
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateCategoryReply'
+    /category/delete:
+        post:
+            tags:
+                - Category
+            operationId: Category_DeleteCategory
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteCategoryReply'
+    /category/get/{id}:
+        get:
+            tags:
+                - Category
+            operationId: Category_GetCategory
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetCategoryReply'
+    /category/list:
+        get:
+            tags:
+                - Category
+            operationId: Category_ListCategory
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListCategoryReply'
+    /category/mget:
+        post:
+            tags:
+                - Category
+            operationId: Category_MGetCategory
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MGetCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MGetCategoryReply'
+    /category/update:
+        post:
+            tags:
+                - Category
+            operationId: Category_UpdateCategory
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateCategoryReply'
+    /helloworld/{name}:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/HelloReply'
+    /training/create:
+        post:
+            tags:
+                - Training
+            operationId: Training_CreateTraining
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateTrainingRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateTrainingReply'
+    /training/delete:
+        post:
+            tags:
+                - Training
+            operationId: Training_DeleteTraining
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteTrainingRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteTrainingReply'
+    /training/get/{id}:
+        get:
+            tags:
+                - Training
+            operationId: Training_GetTraining
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetTrainingReply'
+    /training/getList:
+        get:
+            tags:
+                - Training
+            operationId: Training_ListTraining
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListTrainingReply'
+    /training/update:
+        post:
+            tags:
+                - Training
+            operationId: Training_UpdateTraining
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateTrainingRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateTrainingReply'
     /user/login:
         post:
             tags:
@@ -65,6 +392,310 @@ paths:
                                 $ref: '#/components/schemas/RegisterResponse'
 components:
     schemas:
+        ActionModel:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: id
+                    format: uint64
+                cateId:
+                    type: integer
+                    description: 类别id
+                    format: uint64
+                name:
+                    type: string
+                    description: 动作名称
+                description:
+                    type: string
+                    description: 动作描述
+                status:
+                    type: integer
+                    description: 状态
+                    format: uint32
+                user:
+                    $ref: '#/components/schemas/UserModel'
+                ctime:
+                    type: integer
+                    description: 创建时间
+                    format: uint64
+                utime:
+                    type: integer
+                    description: 修改时间
+                    format: uint64
+                category:
+                    $ref: '#/components/schemas/CategoryModel'
+        CategoryModel:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint64
+                parentId:
+                    type: integer
+                    description: 父类别
+                    format: uint64
+                name:
+                    type: string
+                    description: 类别名称
+                description:
+                    type: string
+                    description: 类别描述
+                status:
+                    type: integer
+                    description: 状态
+                    format: uint32
+                userId:
+                    type: integer
+                    description: 用户id
+                    format: uint32
+                userName:
+                    type: string
+                    description: 用户名
+                ctime:
+                    type: integer
+                    description: 创建时间
+                    format: uint64
+                utime:
+                    type: integer
+                    description: 修改时间
+                    format: uint64
+        CreateActionReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        CreateActionRequest:
+            type: object
+            properties:
+                cateId:
+                    type: integer
+                    description: 类别id
+                    format: uint64
+                name:
+                    type: string
+                    description: 动作名称
+                description:
+                    type: string
+                    description: 动作描述
+        CreateCategoryReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        CreateCategoryRequest:
+            type: object
+            properties:
+                parentId:
+                    type: integer
+                    description: 父类别
+                    format: uint64
+                name:
+                    type: string
+                    description: 类别名称
+                description:
+                    type: string
+                    description: 类别描述
+        CreateTrainingReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        CreateTrainingRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TrainingItem'
+        DeleteActionReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        DeleteActionRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: id
+                    format: uint64
+        DeleteCategoryReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        DeleteCategoryRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint64
+        DeleteTrainingReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        DeleteTrainingRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint64
+        GetActionReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ActionModel'
+        GetCategoryReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/CategoryModel'
+        GetTrainingReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/TrainingModel'
+        HelloReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: The response message containing the greetings
+        ListActionReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ListActionReplyData'
+        ListActionReplyData:
+            type: object
+            properties:
+                total:
+                    type: integer
+                    format: uint64
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ActionModel'
+        ListCategoryReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ListCategoryReplyData'
+        ListCategoryReplyData:
+            type: object
+            properties:
+                total:
+                    type: integer
+                    format: uint64
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CategoryModel'
+        ListTrainingReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ListTrainingReplyData'
+        ListTrainingReplyData:
+            type: object
+            properties:
+                total:
+                    type: integer
+                    format: uint64
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TrainingModel'
         LoginRequest:
             type: object
             properties:
@@ -99,6 +730,52 @@ components:
                     description: 过期时间
                     format: uint64
             description: data
+        MGetActionReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    type: object
+                    additionalProperties:
+                        $ref: '#/components/schemas/ActionModel'
+                    description: 返回
+        MGetActionRequest:
+            type: object
+            properties:
+                actionIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint64
+        MGetCategoryReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    type: object
+                    additionalProperties:
+                        $ref: '#/components/schemas/CategoryModel'
+                    description: 返回
+        MGetCategoryRequest:
+            type: object
+            properties:
+                cateIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint64
         MGetRequest:
             type: object
             properties:
@@ -155,6 +832,138 @@ components:
             type: object
             properties: {}
             description: data
+        ResponseData:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint64
+            description: data
+        TrainingItem:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint64
+                groupId:
+                    type: integer
+                    format: uint64
+                trainingId:
+                    type: integer
+                    format: uint64
+                actionId:
+                    type: integer
+                    format: uint64
+                countType:
+                    type: integer
+                    format: uint32
+                weight:
+                    type: integer
+                    format: uint32
+                countNum:
+                    type: integer
+                    format: uint32
+                action:
+                    $ref: '#/components/schemas/ActionModel'
+        TrainingModel:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint64
+                title:
+                    type: string
+                description:
+                    type: string
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TrainingItem'
+                user:
+                    $ref: '#/components/schemas/UserModel'
+        UpdateActionReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        UpdateActionRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: id
+                    format: uint64
+                cateId:
+                    type: integer
+                    description: 类别id
+                    format: uint64
+                name:
+                    type: string
+                    description: 动作名称
+                description:
+                    type: string
+                    description: 动作描述
+        UpdateCategoryReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        UpdateCategoryRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint64
+                parentId:
+                    type: integer
+                    description: 父类别
+                    format: uint64
+                name:
+                    type: string
+                    description: 类别名称
+                description:
+                    type: string
+                    description: 类别描述
+        UpdateTrainingReply:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: 响应码
+                    format: uint32
+                message:
+                    type: string
+                    description: 提示
+                data:
+                    $ref: '#/components/schemas/ResponseData'
+        UpdateTrainingRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/TrainingItem'
+                id:
+                    type: integer
+                    format: uint64
         UserModel:
             type: object
             properties:
@@ -164,4 +973,9 @@ components:
                 name:
                     type: string
 tags:
+    - name: Action
+    - name: Category
+    - name: Greeter
+      description: The greeting service definition.
+    - name: Training
     - name: User

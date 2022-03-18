@@ -11,6 +11,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/middleware/selector"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/go-kratos/swagger-api/openapiv2"
 	jwtv4 "github.com/golang-jwt/jwt/v4"
 )
 
@@ -48,6 +49,9 @@ func NewHTTPServer(c *conf.Server, logger log.Logger, ca *conf.Auth, userService
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
+	h := openapiv2.NewHandler()
+	//将/q/路由放在最前匹配
+	srv.HandlePrefix("/doc/q/", h)
 	pb_user.RegisterUserHTTPServer(srv, userService)
 	return srv
 }
